@@ -1,5 +1,6 @@
 from selene import have
 from selene.support.shared import browser
+import os
 
 
 def test_fill_form():
@@ -18,7 +19,7 @@ def test_fill_form():
     browser.element('#subjectsInput').type("History").press_tab()
     browser.element("[for='hobbies-checkbox-1']").click()
     browser.element("[for='hobbies-checkbox-3']").click()
-    browser.element('#uploadPicture').type("C:/Users/Ash/PycharmProjects/selene_test_box/159627.png")
+    browser.element('#uploadPicture').send_keys(os.path.abspath('../159627.png'))
     browser.element("#currentAddress").type("Moscow")
     browser.element("#react-select-3-input").type("NCR").press_tab()
     browser.element("#react-select-4-input").type("Delhi").press_tab()

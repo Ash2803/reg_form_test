@@ -3,7 +3,12 @@ from selene.support.shared import browser
 import os
 
 
-def test_fill_form():
+def student_reg_form_opened():
+    browser.open('https://demoqa.com/automation-practice-form')
+
+
+def test_fill_reg_form():
+    student_reg_form_opened()
     browser.element('.main-header').should(have.exact_text('Practice Form'))
     browser.element("#firstName").type('Name')
     browser.element("#lastName").type('LastName')
@@ -25,6 +30,7 @@ def test_fill_form():
     browser.element("#react-select-4-input").type("Delhi").press_tab()
     browser.execute_script('document.getElementById("submit").click()')
 
+    # Assert
     browser.elements('.modal-title').should(have.text("Thanks for submitting the form"))
     browser.elements("table tr").element(1).should(have.text("Name LastName"))
     browser.elements("table tr").element(2).should(have.text("name@name.com"))
@@ -36,4 +42,3 @@ def test_fill_form():
     browser.elements("table tr").element(8).should(have.text("159627.png"))
     browser.elements("table tr").element(9).should(have.text("Moscow"))
     browser.elements("table tr").element(10).should(have.text("NCR Delhi"))
-

@@ -1,8 +1,12 @@
+from typing import Optional
+
 from selene import have, command
+from selene.core.entity import Element
 from selene.support.shared import browser
 import os
 from registration_tests.controls import dropdown
-from registration_tests.controls import tags_input
+# from registration_tests.controls import tags_input
+from registration_tests.controls.tags_input_ import TagsInput
 
 
 def student_reg_form_opened():
@@ -23,12 +27,15 @@ def test_fill_reg_form():
     browser.element('[value="2"]').click()
     browser.element('div[aria-label="Choose Sunday, March 28th, 1993"]').click()
 
-    tags_input.element = browser.element('#subjectsInput')
-    tags_input.add('Chem', autocomplete='Chemistry')
-    tags_input.add('Maths')
+    subjects = TagsInput()
+    subjects.element = browser.element('#subjectsInput')
+    subjects.add('Chem', autocomplete='Chemistry')
+    subjects.add('Maths')
 
-    browser.element("[for='hobbies-checkbox-1']").click()
-    browser.element("[for='hobbies-checkbox-3']").click()
+    hobbies = TagsInput()
+    hobbies.element = browser.element('#hobbiesInput')
+    hobbies.add('Sports')
+
     browser.element('#uploadPicture').send_keys(os.path.abspath('../159627.png'))
 
     browser.element("#currentAddress").type("Moscow")
@@ -49,5 +56,3 @@ def test_fill_reg_form():
     browser.elements("table tr").element(8).should(have.text("159627.png"))
     browser.elements("table tr").element(9).should(have.text("Moscow"))
     browser.elements("table tr").element(10).should(have.text("NCR Delhi"))
-
-

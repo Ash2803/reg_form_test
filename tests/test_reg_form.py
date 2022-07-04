@@ -1,6 +1,7 @@
-from selene import have
+from selene import have, command
 from selene.support.shared import browser
 import os
+from registration_tests.controls import select
 
 
 def student_reg_form_opened():
@@ -26,9 +27,9 @@ def test_fill_reg_form():
     browser.element("[for='hobbies-checkbox-3']").click()
     browser.element('#uploadPicture').send_keys(os.path.abspath('../159627.png'))
     browser.element("#currentAddress").type("Moscow")
-    browser.element("#react-select-3-input").type("NCR").press_tab()
-    browser.element("#react-select-4-input").type("Delhi").press_tab()
-    browser.execute_script('document.getElementById("submit").click()')
+    select.select(browser.element('#state'), option='NCR')
+    select.select(browser.element('#city'), option='Delhi')
+    browser.element('#submit').perform(command.js.click)
 
     # Assert
     browser.elements('.modal-title').should(have.text("Thanks for submitting the form"))
@@ -42,3 +43,5 @@ def test_fill_reg_form():
     browser.elements("table tr").element(8).should(have.text("159627.png"))
     browser.elements("table tr").element(9).should(have.text("Moscow"))
     browser.elements("table tr").element(10).should(have.text("NCR Delhi"))
+
+

@@ -1,7 +1,8 @@
 from selene import have, command
 from selene.support.shared import browser
 import os
-from registration_tests.controls import select
+from registration_tests.controls import dropdown
+from registration_tests.controls import tags_input
 
 
 def student_reg_form_opened():
@@ -21,14 +22,19 @@ def test_fill_reg_form():
     browser.element('[value="1993"]').click()
     browser.element('[value="2"]').click()
     browser.element('div[aria-label="Choose Sunday, March 28th, 1993"]').click()
-    browser.element('#subjectsInput').type("Math").press_tab()
-    browser.element('#subjectsInput').type("History").press_tab()
+
+    tags_input.element = browser.element('#subjectsInput')
+    tags_input.add('Chem', autocomplete='Chemistry')
+    tags_input.add('Maths')
+
     browser.element("[for='hobbies-checkbox-1']").click()
     browser.element("[for='hobbies-checkbox-3']").click()
     browser.element('#uploadPicture').send_keys(os.path.abspath('../159627.png'))
+
     browser.element("#currentAddress").type("Moscow")
-    select.select(browser.element('#state'), option='NCR')
-    select.select(browser.element('#city'), option='Delhi')
+
+    dropdown.select(browser.element('#state'), option='NCR')
+    dropdown.select(browser.element('#city'), option='Delhi')
     browser.element('#submit').perform(command.js.click)
 
     # Assert

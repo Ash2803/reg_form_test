@@ -4,6 +4,12 @@ from selene import have, command
 from selene.support.shared import browser
 
 
+class Gender:
+    male = '[for="gender-radio-1"]'
+    female = '[for="gender-radio-2"]'
+    other = '[for="gender-radio-3"]'
+
+
 class Hobbies:
     sports = 'Sports'
     reading = 'Reading'
@@ -21,7 +27,7 @@ class City:
 
 
 def student_reg_form_opened():
-    browser.open('https://demoqa.com/automation-practice-form')
+    browser.open('/automation-practice-form')
 
 
 def test_fill_reg_form():
@@ -31,7 +37,7 @@ def test_fill_reg_form():
     browser.element("#lastName").type('LastName')
     browser.element("#userEmail").type('name@name.com')
 
-    browser.element('[for="gender-radio-1"]').click()
+    browser.element(Gender.male).click()
 
     browser.element("#userNumber").type('89995553366')
 
@@ -64,7 +70,7 @@ def test_fill_reg_form():
     browser.elements("table tr").element(3).should(have.text("Male"))
     browser.elements("table tr").element(4).should(have.text("8999555336"))
     browser.elements("table tr").element(5).should(have.text("28 March,1993"))
-    browser.elements("table tr").element(6).should(have.text('Physics, English'))
+    browser.elements("table tr").element(6).should(have.text(f'{Subjects.physics}, {Subjects.english}'))
     browser.elements("table tr").element(7).should(have.text("Music, Sports, Reading"))
     browser.elements("table tr").element(8).should(have.text("159627.png"))
     browser.elements("table tr").element(9).should(have.text("Moscow"))

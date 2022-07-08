@@ -36,13 +36,12 @@ def test_fill_reg_form():
 
     browser.element(Gender.male).click()
 
-    browser.element("#userNumber").type('89995553366')
+    browser.element('#userNumber').type('89995553366')
 
-    browser.element("#dateOfBirthInput").scroll_to().click()
-    browser.element(".react-datepicker__month-select")
-    browser.element('[value="1993"]').click()
-    browser.element('[value="2"]').click()
-    browser.element('div[aria-label="Choose Sunday, March 28th, 1993"]').click()
+    browser.element('#dateOfBirthInput').perform(command.js.scroll_into_view).click()
+    browser.element('.react-datepicker__year-select').element('[value="1993"]').click()
+    browser.element('.react-datepicker__month-select').element('[value="3"]').click()
+    browser.element('.react-datepicker__day--028').click()
 
     def autocomplete(selector: str, /, *, from_: str):
         browser.element(selector).type(from_).press_enter()

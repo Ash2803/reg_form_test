@@ -1,12 +1,11 @@
-import os
-
 from selene import have, command
 from selene.support.shared import browser
 
 from controls.city_selector import City, select_by_choosing
 from controls.hobbies_input import Hobbies
+from controls.image_input import resource
 from controls.person_input import Person
-from controls.subjects_input import Subjects
+from controls.subjects_input import SubjectsInput
 
 
 def student_reg_form_opened():
@@ -32,18 +31,16 @@ def test_fill_reg_form():
     browser.element('.react-datepicker__month-select').element('[value="3"]').click()
     browser.element('.react-datepicker__day--028').click()
 
-    def autocomplete(selector: str, /, *, from_: str):
-        browser.element(selector).type(from_).press_enter()
-        browser.all('.subjects-auto-complete__option').element_by(have.exact_text(from_))
-
-    autocomplete('#subjectsInput', from_=Subjects.physics)
-    autocomplete('#subjectsInput', from_=Subjects.english)
+    subjects_input = SubjectsInput
+    subjects_input.autocomplete('#subjectsInput', SubjectsInput.physics)
+    subjects_input.autocomplete('#subjectsInput', SubjectsInput.english)
 
     browser.all('.custom-checkbox').element_by(have.exact_text(Hobbies.music)).click()
     browser.all('.custom-checkbox').element_by(have.exact_text(Hobbies.sports)).click()
     browser.all('.custom-checkbox').element_by(have.exact_text(Hobbies.reading)).click()
 
-    browser.element('#uploadPicture').send_keys(os.path.abspath('../resources/159627.png'))
+    browser.element('#uploadPicture').send_keys(resource('159627.png'))
+    # browser.element('#uploadPicture').send_keys(os.path.abspath('../resources/159627.png'))
 
     select_by_choosing(browser.element('#state'), option=City.state)
     select_by_choosing(browser.element('#city'), option=City.city)
